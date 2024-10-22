@@ -1,0 +1,162 @@
+"use client"
+
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+
+export default function DailyActivitiesRecord() {
+  const [formData, setFormData] = useState({
+    inspectionNo: "",
+    premisesName: "",
+    premisesType: "",
+    ownerDetails: "",
+    address: "",
+    activityType: "",
+    timeSpent: "",
+    actionInstituted: "",
+    followUpDate: "",
+    reference: ""
+  })
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setFormData(prevState => ({ ...prevState, [name]: value }))
+  }
+
+  const handleSelectChange = (value: string) => {
+    setFormData(prevState => ({ ...prevState, activityType: value }))
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    console.log("Form submitted:", formData)
+    // Here you would typically send the data to a server or perform other actions
+  }
+
+  return (
+    <Card className="w-full max-w-2xl mx-auto">
+      <CardHeader>
+        <CardTitle>Record of Daily Activities</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="inspectionNo">Insp. No</Label>
+              <Input
+                id="inspectionNo"
+                name="inspectionNo"
+                value={formData.inspectionNo}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="reference">Reference</Label>
+              <Input
+                id="reference"
+                name="reference"
+                value={formData.reference}
+                onChange={handleInputChange}
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="premisesName">Name of premises</Label>
+            <Input
+              id="premisesName"
+              name="premisesName"
+              value={formData.premisesName}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="premisesType">Premises type</Label>
+              <Input
+                id="premisesType"
+                name="premisesType"
+                value={formData.premisesType}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="ownerDetails">Owner details</Label>
+              <Input
+                id="ownerDetails"
+                name="ownerDetails"
+                value={formData.ownerDetails}
+                onChange={handleInputChange}
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="address">Address</Label>
+            <Textarea
+              id="address"
+              name="address"
+              value={formData.address}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="activityType">Daily Activities</Label>
+            <Select onValueChange={handleSelectChange}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select activity type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="routine">Routine inspection</SelectItem>
+                <SelectItem value="licence">Licence investigation</SelectItem>
+                <SelectItem value="complaint">Complaint Investigation</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="timeSpent">Time Spent (Hours)</Label>
+              <Input
+                id="timeSpent"
+                name="timeSpent"
+                type="number"
+                value={formData.timeSpent}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="actionInstituted">Action Instituted</Label>
+              <Input
+                id="actionInstituted"
+                name="actionInstituted"
+                placeholder="P/N, W/N, Letter, Reports"
+                value={formData.actionInstituted}
+                onChange={handleInputChange}
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="followUpDate">Follow-up Date</Label>
+            <Input
+              id="followUpDate"
+              name="followUpDate"
+              type="date"
+              value={formData.followUpDate}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <Button type="submit" className="w-full">Submit Record</Button>
+        </form>
+      </CardContent>
+    </Card>
+  )
+}
